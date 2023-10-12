@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
     <title>Личный кабинет</title>
 </head>
 <body>
-    <h1>Личный кабинет</h1>
-    <p>Добро пожаловать, {{ user.username }}!</p>
-    <!-- Здесь вы можете отображать информацию о пользователе -->
-    <a href="{{ url_for('logout') }}">Выйти</a>
+    <div class="header">
+        <h1>Личный кабинет</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('logout') }}">Выход</a>
+        </div>
+    </div>
+    <div class="bookmarks">
+        <h2>Мои закладки</h2>
+        <ul>
+            {% for bookmark in user.bookmarks %}
+                <li>
+                    <div class="bookmark">
+                        <img src="{{ bookmark.movie.image_url }}" alt="Movie Poster">
+                        <h3>{{ bookmark.movie.title if bookmark.movie else 'Фильм не найден' }}</h3>
+                        <p>Рейтинг: {{ bookmark.movie.rating if bookmark.movie else 'Рейтинг не доступен' }}</p>
+                        <p>Описание: {{ bookmark.movie.description if bookmark.movie else 'Описание не доступно' }}</p>
+                        <form method="POST" action="{{ url_for('remove_from_bookmarks', bookmark_id=bookmark.id) }}">
+                            <button type="submit">Удалить из закладок</button>
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

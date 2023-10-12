@@ -9,31 +9,34 @@ app.secret_key = 'your_secret_key'  # Замените 'your_secret_key' на с
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
-
 class Movie(db.Model):
-    __tablename__ = 'movies'  # Имя вашей таблицы в базе данных
+    __tablename__ = 'movies'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     rating = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text)
     image_url = db.Column(db.String(255))
 
+class Bookmark(db.Model):
+    __tablename__ = 'bookmarks'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'), nullable=False)
+    user = db.relationship('User', backref='bookmarks')
+    movie = db.relationship('Movie', backref='bookmarks')
 
 def get_movies(page, per_page=50):
     movies = Movie.query.paginate(page=page, per_page=per_page, error_out=False)
     return movies
 
-
 def count_movies():
     return Movie.query.count()
-
 
 @app.route('/')
 def index():
@@ -49,20 +52,15 @@ def index():
     return render_template('index.html', movies=movies, page=page, total_pages=total_pages,
                            is_authenticated=is_authenticated)
 
-
-# Ваш код для моделей Movie и User
-
 # Функция для проверки, авторизован ли пользователь
 def is_authenticated():
     return 'user_id' in session
-
 
 # Функция для разлогинивания пользователя
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('index'))
-
 
 # Маршрут для страницы входа
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,7 +78,6 @@ def login():
             flash('Неверное имя пользователя или пароль')
 
     return render_template('login.html')
-
 
 # Маршрут для страницы регистрации
 @app.route('/register', methods=['GET', 'POST'])
@@ -101,6 +98,30 @@ def register():
 
     return render_template('register.html')
 
+# Маршрут для добавления фильма в закладки
+@app.route('/add_to_bookmarks/<int:movie_id>')
+def add_to_bookmarks(movie_id):
+    if is_authenticated():
+        user_id = session['user_id']
+        bookmark = Bookmark(user_id=user_id, movie_id=movie_id)
+        db.session.add(bookmark)
+        db.session.commit()
+        flash('Фильм добавлен в закладки.', 'success')  # Добавляем "success" к flash сообщению
+    else:
+        flash('Необходимо авторизоваться, чтобы добавить фильм в закладки.', 'error')  # Добавляем "error" к flash сообщению
+    return redirect(url_for('index'))
+
+# Маршрут для просмотра закладок пользователя
+@app.route('/bookmarks')
+def bookmarks():
+    if is_authenticated():
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        user_bookmarks = user.bookmarks
+        bookmarked_movies = [bookmark.movie for bookmark in user_bookmarks]
+        return render_template('bookmarks.html', user=user, bookmarks=bookmarked_movies)
+    else:
+        return redirect(url_for('login'))
 
 # Маршрут для личного кабинета
 @app.route('/dashboard')
@@ -108,12 +129,20 @@ def dashboard():
     if is_authenticated():
         user_id = session['user_id']
         user = User.query.get(user_id)
-        return render_template('dashboard.html', user=user)
+        bookmarks = user.bookmarks  # Получаем все закладки пользователя
+        return render_template('dashboard.html', user=user, bookmarks=bookmarks)
     else:
         return redirect(url_for('login'))
 
-
-# Дополнительные маршруты и функции здесь
+# Маршрут для удаления фильма из закладок
+@app.route('/remove_from_bookmarks/<int:bookmark_id>', methods=['POST'])
+def remove_from_bookmarks(bookmark_id):
+    if is_authenticated():
+        bookmark = Bookmark.query.get(bookmark_id)
+        if bookmark and bookmark.user_id == session['user_id']:
+            db.session.delete(bookmark)
+            db.session.commit()
+    return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
     app.run(debug=True)

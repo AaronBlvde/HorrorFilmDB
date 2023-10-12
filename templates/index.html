@@ -5,6 +5,16 @@
     <title>Horror Movies</title>
 </head>
 <body>
+<!-- Выводим flash сообщение с классом "success" -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
     <div class="header">
         <h1>Horror Movies</h1>
         <div class="menu">
@@ -18,6 +28,7 @@
         </div>
     </div>
     <div class="movies">
+
         <ul>
             {% for movie in movies %}
                 <li>

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask import flash
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')

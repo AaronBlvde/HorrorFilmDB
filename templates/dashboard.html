@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <h1>Личный кабинет</h1>
+    <p>Добро пожаловать, {{ user.username }}!</p>
+    <!-- Здесь вы можете отображать информацию о пользователе -->
+    <a href="{{ url_for('logout') }}">Выйти</a>
+</body>
+</html>

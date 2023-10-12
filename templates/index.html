@@ -7,6 +7,15 @@
 <body>
     <div class="header">
         <h1>Horror Movies</h1>
+        <div class="menu">
+            {% if is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Личный кабинет</a>
+                <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Вход</a>
+                <a href="{{ url_for('register') }}">Регистрация</a>
+            {% endif %}
+        </div>
     </div>
     <div class="movies">
         <ul>
@@ -17,7 +26,6 @@
                         <h2>{{ movie.title }}</h2>
                         <p>Rating: {{ movie.rating }}</p>
                         <p>Description: {{ movie.description }}</p>
-
                     </div>
                 </li>
             {% endfor %}

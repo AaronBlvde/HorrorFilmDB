@@ -1,26 +1,29 @@
 from flask import Flask, render_template, request
-import sqlite3
+from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
-# Функция для извлечения фильмов с учетом пагинации
+class Movie(db.Model):
+    __tablename__ = 'movies'  # Имя вашей таблицы в базе данных
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    rating = db.Column(db.Float, nullable=False)
+    description = db.Column(db.Text)
+    image_url = db.Column(db.String(255))
+
+
 def get_movies(page, per_page=50):
-    conn = sqlite3.connect('database/horror_movies.db')
-    cursor = conn.cursor()
-    offset = (page - 1) * per_page
-    cursor.execute('SELECT title, rating, description, image_url FROM movies LIMIT ? OFFSET ?', (per_page, offset))
-    movies = cursor.fetchall()
-    conn.close()
+    movies = Movie.query.paginate(page=page, per_page=per_page, error_out=False)
     return movies
 
-# Функция для определения общего количества фильмов
+
+
 def count_movies():
-    conn = sqlite3.connect('database/horror_movies.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT COUNT(*) FROM movies')
-    count = cursor.fetchone()[0]
-    conn.close()
-    return count
+    return Movie.query.count()
 
 @app.route('/')
 def index():

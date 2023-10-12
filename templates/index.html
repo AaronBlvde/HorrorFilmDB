@@ -13,10 +13,11 @@
             {% for movie in movies %}
                 <li>
                     <div class="movie">
-                        <img src="{{ movie[3] }}" alt="Movie Poster">
-                        <h2>{{ movie[0] }}</h2>
-                        <p>Rating: {{ movie[1] }}</p>
-                        <p>Description: {{ movie[2] }}</p>
+                        <img src="{{ movie.image_url }}" alt="Movie Poster">
+                        <h2>{{ movie.title }}</h2>
+                        <p>Rating: {{ movie.rating }}</p>
+                        <p>Description: {{ movie.description }}</p>
+
                     </div>
                 </li>
             {% endfor %}

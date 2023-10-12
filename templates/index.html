@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Horror Movies</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Horror Movies</h1>
+    </div>
+    <div class="movies">
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    <div class="movie">
+                        <img src="{{ movie[3] }}" alt="Movie Poster">
+                        <h2>{{ movie[0] }}</h2>
+                        <p>Rating: {{ movie[1] }}</p>
+                        <p>Description: {{ movie[2] }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="pagination">
+        <div class="center">
+            <p>Page {{ page }} of {{ total_pages }}</p>
+            <p>
+                {% if page > 1 %}
+                    <a href="?page=1">First</a>
+                    <a href="?page={{ page - 1 }}">Previous</a>
+                {% endif %}
+                {% if page < total_pages %}
+                    <a href="?page={{ page + 1 }}">Next</a>
+                    <a href="?page={{ total_pages }}">Last</a>
+                {% endif %}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

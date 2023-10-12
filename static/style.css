@@ -1,0 +1,61 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #111; /* фон */
+    color: #FF0000; /* цвет текста */
+}
+
+.header {
+    background-color: #222; /* фон для шапки */
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.movies {
+    background-color: #111; /* фон для списка фильмов */
+    padding: 20px;
+    text-align: center;
+}
+
+.movies ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.movie {
+    background-color: #222; /* блок для отдельного фильма */
+    border: 1px solid #111; /* граница для фильма */
+    margin: 10px;
+    padding: 10px;
+    width: 250px; /* Ширина блока фильма */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+.movie img {
+    width: 96px; /* Ширина изображения */
+    height: 144px; /* Высота изображения */
+}
+
+.movie h2 {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0;
+    color: #FF0000; /* цвет названия фильма */
+}
+
+.movie p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: white; /* цвет текста фильма */
+}
+.pagination {
+    text-align: center;
+}
+
+.center {
+    display: inline-block;
+}

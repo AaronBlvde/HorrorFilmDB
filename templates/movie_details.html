@@ -16,9 +16,34 @@
         <h2>{{ movie.title }}</h2>
         <p>Рейтинг: {{ movie.rating }}</p>
         <p>Описание: {{ movie.description }}</p>
-        <form method="POST" action="{{ url_for('add_to_bookmarks', movie_id=movie.id) }}">
-            <button type="submit" class="add-to-bookmarks">Добавить в закладки</button>
-        </form>
-    </div>
+
+        <h3>Комментарии:</h3>
+        <ul class="comments">
+        {% for comment in comments %}
+            <li class="comment">
+                <strong>{{ comment.user.username if comment.user else 'Анонимный пользователь' }}</strong>: {{ comment.text }}
+            </li>
+        {% endfor %}
+        </ul>
+
+        <style>
+    .submit-button {
+        margin-top: -10px; /* Установите отрицательный отступ, чтобы поднять кнопку чуть выше */
+    }
+        </style>
+        {% if is_authenticated %}
+            <form action="{{ url_for('movie_details', movie_id=movie.id) }}" method="post">
+                {{ comment_form.hidden_tag() }}
+                <textarea class="fixed-comment-box" name="comment_text" rows="4" cols="50" placeholder="Оставьте комментарий"></textarea>
+                {% for error in comment_form.comment_text.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+                <br>
+                <button type="submit" class="submit-button">Отправить комментарий</button>
+            </form>
+        {% else %}
+            <p>Чтобы оставлять комментарии, необходимо <a href="{{ url_for('login') }}">войти</a>.</p>
+        {% endif %}
+        </div>
 </body>
 </html>

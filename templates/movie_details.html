@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='movie_card.css') }}">
+    <title>{{ movie.title }} - Подробности о фильме</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Подробности о фильме</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Главная</a>
+        </div>
+    </div>
+    <div class="movie-details">
+        <img src="{{ movie.image_url }}" alt="Movie Poster">
+        <h2>{{ movie.title }}</h2>
+        <p>Рейтинг: {{ movie.rating }}</p>
+        <p>Описание: {{ movie.description }}</p>
+        <form method="POST" action="{{ url_for('add_to_bookmarks', movie_id=movie.id) }}">
+            <button type="submit" class="add-to-bookmarks">Добавить в закладки</button>
+        </form>
+    </div>
+</body>
+</html>

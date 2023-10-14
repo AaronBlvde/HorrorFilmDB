@@ -1,19 +1,19 @@
 /* dashboard.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #111; /* фон */
+    background-color: #e2e2e5; /* фон */
     color: #FF0000; /* цвет текста */
 }
 
 .header {
-    background-color: #222; /* фон для шапки */
-    color: white;
+    background-color: #1111; /* фон для шапки */
+    color: #262323;
     text-align: center;
     padding: 10px;
 }
 
 .bookmarks {
-    background-color: #111; /* фон для списка закладок */
+    background-color: #e2e2e5; /* фон для списка закладок */
     padding: 20px;
     text-align: center;
 }
@@ -27,7 +27,7 @@ body {
 }
 
 .bookmark {
-    background-color: #222; /* блок для отдельной закладки */
+    background-color: #474A59; /* блок для отдельной закладки */
     border: 1px solid #111; /* граница для закладки */
     margin: 10px;
     padding: 10px;
@@ -81,4 +81,27 @@ body {
     font-size: 14px;
     margin: 5px 0;
     color: white;
+}
+
+.menu{
+    background-color: #474A59;
+    color: #262323;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    text-decoration: none;
+}
+
+.menu a{
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
+button[type="submit"] {
+    background-color: #333; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    padding: 5px 10px; /* Внутренний отступ */
+    border: none; /* Убрать границу */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Изменить вид курсора при наведении */
 }

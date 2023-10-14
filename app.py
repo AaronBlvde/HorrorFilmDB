@@ -56,6 +56,14 @@ def index():
 
     return render_template('index.html', movies=movies, page=page, total_pages=total_pages,
                            is_authenticated=is_authenticated)
+#Карточка фильма
+@app.route('/movie/<int:movie_id>')
+def movie_details(movie_id):
+    # Здесь вам нужно получить информацию о фильме по его идентификатору (movie_id)
+    movie = Movie.query.get(movie_id)
+
+    # 'movie_details.html' для отображения подробной информации о фильме
+    return render_template('movie_details.html', movie=movie)
 
 # Функция для проверки, авторизован ли пользователь
 def is_authenticated():

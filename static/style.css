@@ -119,3 +119,49 @@ button[type="submit"] {
     border-radius: 5px; /* Скругление углов */
     cursor: pointer; /* Изменить вид курсора при наведении */
 }
+
+/* movie_details.css */
+.movie-details {
+    background-color: #f0f0f0; /* Серый цвет фона */
+    padding: 20px;
+    border: 1px solid #ddd; /* Рамка вокруг блока */
+    text-align: center; /* Выравнивание содержимого по центру */
+}
+
+.movie-details img {
+    max-width: 100%; /* Максимальная ширина изображения по размеру контейнера */
+    height: auto; /* Автоматическая высота, сохраняющая пропорции */
+    margin: 20px 0; /* Отступы сверху и снизу изображения */
+}
+
+.movie-details h2 {
+    font-size: 24px; /* Размер шрифта заголовка */
+}
+
+.movie-details p {
+    font-size: 16px; /* Размер шрифта текста */
+    margin: 10px 0; /* Отступы между абзацами */
+}
+
+
+
+.add-to-bookmarks:hover {
+    background-color: #0056b3; /* Цвет фона при наведении */
+    border: 1px solid #0056b3; /* Рамка при наведении */
+}
+
+.movie-link {
+    /* Ваши стили для ссылок здесь */
+    color: #000; /* Цвет текста */
+    text-decoration: none; /* Убрать подчеркивание */
+    /* Другие стили */
+}
+/* Убираем подчеркивание с ссылок */
+a {
+    text-decoration: none;
+}
+
+/* Стили для ссылок, находящихся внутри .movie, чтобы они не были подчеркнутыми */
+.movie a {
+    text-decoration: none;
+}

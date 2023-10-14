@@ -27,6 +27,12 @@
             {% endif %}
         </div>
     </div>
+    <div class="search">
+        <form action="{{ url_for('search') }}" method="GET" class="search-form">
+        <input type="text" name="query" placeholder="Поиск фильмов">
+        <button type="submit">Поиск</button>
+</form>
+    </div>
     <div class="movies">
 
         <ul>
@@ -58,5 +64,6 @@
             </p>
         </div>
     </div>
+<canvas id='c'></canvas>
 </body>
 </html>

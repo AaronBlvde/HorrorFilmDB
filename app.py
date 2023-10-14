@@ -2,10 +2,14 @@ from flask import Flask, render_template, request, session, redirect, url_for, f
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask import flash
+from fuzzywuzzy import fuzz
+
 
 app = Flask(__name__)
+app._static_folder = 'static'
 app.config.from_pyfile('config.py')
 app.secret_key = 'your_secret_key'  # Замените 'your_secret_key' на случайный секретный ключ
+
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -63,7 +67,6 @@ def logout():
     session.pop('user_id', None)
     return redirect(url_for('index'))
 
-# Маршрут для страницы входа
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -80,6 +83,13 @@ def login():
 
     return render_template('login.html')
 
+# Маршрут для страницы входа
+
+
+
+
+    return render_template('login.html')
+
 # Маршрут для страницы регистрации
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -87,17 +97,23 @@ def register():
         username = request.form['username']
         password = request.form['password']
 
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            flash('Пользователь с таким именем уже существует.')
+        if not username or not password:
+            flash('Пожалуйста, введите имя пользователя и пароль.')
         else:
-            new_user = User(username=username, password=password)
-            db.session.add(new_user)
-            db.session.commit()
-            session['user_id'] = new_user.id  # Авторизуем пользователя сразу после регистрации
-            return redirect(url_for('index'))  # Перенаправляем на главную страницу
+            existing_user = User.query.filter_by(username=username).first()
+            if existing_user:
+                flash('Пользователь с таким именем уже существует.')
+            else:
+                new_user = User(username=username, password=password)
+                db.session.add(new_user)
+                db.session.commit()
+                session['user_id'] = new_user.id  # Авторизуем пользователя сразу после регистрации
+                return redirect(url_for('index'))  # Перенаправляем на главную страницу
 
     return render_template('register.html')
+
+
+
 
 # Маршрут для добавления фильма в закладки
 @app.route('/add_to_bookmarks/<int:movie_id>')
@@ -144,6 +160,34 @@ def remove_from_bookmarks(bookmark_id):
             db.session.delete(bookmark)
             db.session.commit()
     return redirect(url_for('dashboard'))
+
+#поиск фильма по названию в базе данных
+def search_movies(query):
+    query = query.strip().lower()
+
+    # Получаем все фильмы из базы данных
+    all_movies = Movie.query.all()
+
+    # Создаем список для фильмов, которые подходят под критерии поиска
+    matching_movies = []
+
+    for movie in all_movies:
+        movie_title = movie.title.strip().lower()
+
+        # Используем библиотеку fuzzywuzzy для определения схожести строк
+        similarity = fuzz.partial_ratio(query, movie_title)
+
+        # Вы можете настроить порог схожести для определения, что считать подходящим
+        if similarity > 70:  # Например, схожесть более 70%
+            matching_movies.append(movie)
+
+    return matching_movies
+@app.route('/search')
+def search():
+    query = request.args.get('query', '')
+    movies = search_movies(query)
+    return render_template('search_results.html', movies=movies, query=query)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

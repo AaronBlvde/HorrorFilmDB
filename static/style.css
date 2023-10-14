@@ -1,20 +1,38 @@
+@import url('https://rsms.me/inter/inter-ui.css');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #111; /* фон */
-    color: #FF0000; /* цвет текста */
+    font-family: 'Inter UI', sans-serif;
+    background-color: #e2e2e5;
+    color: #FF0000;
 }
 
 .header {
-    background-color: #222; /* фон для шапки */
-    color: white;
+    background-color: #1111;
+    color: #262323;
     text-align: center;
     padding: 10px;
 }
 
-.movies {
-    background-color: #111; /* фон для списка фильмов */
-    padding: 20px;
+.menu{
+    background-color: #474A59;
+    color: #262323;
     text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    text-decoration: none;
+}
+
+.menu a{
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
+.movies {
+    background-color: #e2e2e5;
+    text-align: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .movies ul {
@@ -23,45 +41,81 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
 }
 
 .movie {
-    background-color: #222; /* блок для отдельного фильма */
-    border: 1px solid #111; /* граница для фильма */
+    background-color: #474A59;
+    border: 1px solid #e2e2e5;
     margin: 10px;
     padding: 10px;
-    width: 250px; /* Ширина блока фильма */
-    height: 400px; /* Высота блока фильма */
+    width: 250px;
+    height: 400px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    text-align: center; /* Выравнивание текста по центру */
+    text-align: center;
 }
 
 .add-to-bookmarks {
     margin-top: auto;
     bottom: 0;
+    text-decoration: none;
 }
 
 .movie img {
-    width: 96px; /* Ширина изображения */
-    height: 144px; /* Высота изображения */
+    width: 96px;
+    height: 144px;
 }
 
 .movie h2 {
     font-size: 16px;
     margin: 5px 0;
     padding: 0;
-    color: #FF0000; /* цвет названия фильма */
+    color: #d34141;
 }
 
 .movie p {
     font-size: 14px;
     margin: 5px 0;
-    color: white; /* цвет текста фильма */
+    color: white;
 }
+
 .pagination {
     text-align: center;
 }
 
 .center {
     display: inline-block;
+}
+
+.movie a {
+    color: #d34141
+}
+
+/* Стили для строки поиска */
+.search {
+    text-align: center; /* Выравнивание по центру */
+    margin: 20px auto; /* Выравнивание по горизонтали и отступ сверху/снизу */
+}
+
+.search-form {
+    display: inline-block; /* Сделать форму в строчном режиме */
+    border: 2px solid #333; /* Граница для стилизации */
+    padding: 10px; /* Внутренний отступ */
+    border-radius: 5px; /* Скругление углов */
+    background-color: #fff; /* Цвет фона */
+}
+
+input[type="text"] {
+    width: 800px; /* Ширина поля ввода */
+    padding: 5px; /* Внутренний отступ */
+    border: none; /* Убрать границу поля ввода */
+}
+
+button[type="submit"] {
+    background-color: #333; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    padding: 5px 10px; /* Внутренний отступ */
+    border: none; /* Убрать границу */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Изменить вид курсора при наведении */
 }

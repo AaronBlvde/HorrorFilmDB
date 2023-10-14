@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <title>Результаты поиска</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Результаты поиска</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Главная</a>
+        </div>
+    </div>
+    <div class="search">
+        <form action="{{ url_for('search') }}" method="GET" class="search-form">
+            <input type="text" name="query" value="{{ query }}" placeholder="Поиск фильмов">
+            <button type="submit">Поиск</button>
+        </form>
+    </div>
+    <div class="movies">
+        {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li>
+                        <div class="movie">
+                            <img src="{{ movie.image_url }}" alt="Постер фильма">
+                            <h2>{{ movie.title }}</h2>
+                            <p>Рейтинг: {{ movie.rating }}</p>
+                            <p>Описание: {{ movie.description }}</p>
+                            <a href="{{ url_for('add_to_bookmarks', movie_id=movie.id) }}" class="add-to-bookmarks">Добавить в закладки</a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Фильмы не найдены</p>
+        {% endif %}
+    </div>
+</body>
+</html>

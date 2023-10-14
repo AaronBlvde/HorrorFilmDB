@@ -123,3 +123,60 @@ button[type="submit"] {
     background-color: #474a5942; /* Цвет фона */
     padding: 20px; /* Внутренний отступ внутри блока */
 }
+
+.fixed-comment-box {
+    height: 100px; /* Здесь можете указать желаемую высоту */
+    resize: none;  /* Запрещаем изменение размера элемента пользователем */
+}
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f4f4f4; /* Светлый фон для комментариев */
+}
+
+
+.comment-author {
+    font-weight: bold; /* Жирный текст для никнейма автора */
+}
+
+.comment-text {
+    margin-top: 5px; /* Расстояние между никнеймом и текстом комментария */
+}
+
+ul.comments {
+    list-style: none; /* Убираем маркеры списков */
+    padding: 0;
+}
+
+.comments-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-form {
+    align-self: flex-start;
+    width: 100%; /* Чтобы форма занимала всю ширину */
+}
+
+/* styles.css */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.submit-button {
+    align-self: flex-start;
+    margin-top: 10px; /* Поднимаем кнопку чуть выше */
+}
+
+
+/* Добавляем стили для ошибки */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}

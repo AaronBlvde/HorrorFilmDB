@@ -105,3 +105,7 @@ button[type="submit"] {
     border-radius: 5px; /* Скругление углов */
     cursor: pointer; /* Изменить вид курсора при наведении */
 }
+
+a {
+    text-decoration: none; /* Убирает подчеркивание с ссылок */
+}

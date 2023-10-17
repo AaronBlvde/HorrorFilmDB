@@ -18,12 +18,30 @@
         <p>Описание: {{ movie.description }}</p>
 
         <h3>Комментарии:</h3>
-        <ul class="comments">
-        {% for comment in comments %}
-            <li class="comment">
-                <strong>{{ comment.user.username if comment.user else 'Анонимный пользователь' }}</strong>: {{ comment.text }}
-            </li>
-        {% endfor %}
+            <ul class="comments">
+            {% for comment in comments %}
+                <li class="comment">
+                    <strong>{{ comment.user.username if comment.user else 'Анонимный пользователь' }}</strong>: {{ comment.text }}
+                    {% if comment.user.id == session['user_id'] %}
+                        <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                            {{ comment_form.csrf_token }}
+                            <button type="submit">Удалить комментарий</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+
+            <!-- Место для отображения уведомлений -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul id="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
         </ul>
 
         <style>

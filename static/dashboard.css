@@ -18,6 +18,10 @@ body {
     text-align: center;
 }
 
+.bookmarks {
+    color: black;
+}
+
 .bookmarks ul {
     list-style: none;
     padding: 0;

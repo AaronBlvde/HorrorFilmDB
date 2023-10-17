@@ -5,23 +5,50 @@
     <title>Horror Movies</title>
 </head>
 <body>
+<!-- Выводим flash сообщение с классом "success" -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flash-messages">
+            {% for category, message in messages %}
+                <li class="flash-{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
     <div class="header">
         <h1>Horror Movies</h1>
+        <div class="menu">
+            {% if is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Личный кабинет</a>
+                <a href="{{ url_for('logout') }}">Выйти</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Вход</a>
+                <a href="{{ url_for('register') }}">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="search">
+        <form action="{{ url_for('search') }}" method="GET" class="search-form">
+        <input type="text" name="query" placeholder="Поиск фильмов">
+        <button type="submit">Поиск</button>
+</form>
     </div>
     <div class="movies">
         <ul>
             {% for movie in movies %}
                 <li>
                     <div class="movie">
-                        <img src="{{ movie[3] }}" alt="Movie Poster">
-                        <h2>{{ movie[0] }}</h2>
-                        <p>Rating: {{ movie[1] }}</p>
-                        <p>Description: {{ movie[2] }}</p>
+                        <img src="{{ movie.image_url }}" alt="Movie Poster">
+                        <h2><a href="{{ url_for('movie_details', movie_id=movie.id) }}">{{ movie.title }}</a></h2>
+                        <p>Rating: {{ movie.rating }}</p>
+                        <p>Description: {{ movie.description }}</p>
+                        <button type="submit" class="btn btn-danger" onclick="window.location.href='{{ url_for('add_to_bookmarks', movie_id=movie.id) }}'">Добавить в закладки</button>
                     </div>
                 </li>
             {% endfor %}
         </ul>
     </div>
+
     <div class="pagination">
         <div class="center">
             <p>Page {{ page }} of {{ total_pages }}</p>
@@ -37,5 +64,6 @@
             </p>
         </div>
     </div>
+<canvas id='c'></canvas>
 </body>
 </html>

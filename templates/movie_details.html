@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='movie_card.css') }}">
+    <title>{{ movie.title }} - Подробности о фильме</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Подробности о фильме</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Главная</a>
+        </div>
+    </div>
+    <div class="movie-details">
+        <img src="{{ movie.image_url }}" alt="Movie Poster">
+        <h2>{{ movie.title }}</h2>
+        <p>Рейтинг: {{ movie.rating }}</p>
+        <p>Описание: {{ movie.description }}</p>
+
+        <h3>Комментарии:</h3>
+            <ul class="comments">
+            {% for comment in comments %}
+                <li class="comment">
+                    <strong>{{ comment.user.username if comment.user else 'Анонимный пользователь' }}</strong>: {{ comment.text }}
+                    {% if comment.user.id == session['user_id'] %}
+                        <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                            {{ comment_form.csrf_token }}
+                            <button type="submit">Удалить комментарий</button>
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+
+            <!-- Место для отображения уведомлений -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul id="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </ul>
+
+        <style>
+    .submit-button {
+        margin-top: -10px; /* Установите отрицательный отступ, чтобы поднять кнопку чуть выше */
+    }
+        </style>
+        {% if is_authenticated %}
+            <form action="{{ url_for('movie_details', movie_id=movie.id) }}" method="post">
+                {{ comment_form.hidden_tag() }}
+                <textarea class="fixed-comment-box" name="comment_text" rows="4" cols="50" placeholder="Оставьте комментарий"></textarea>
+                {% for error in comment_form.comment_text.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+                <br>
+                <button type="submit" class="submit-button">Отправить комментарий</button>
+            </form>
+        {% else %}
+            <p>Чтобы оставлять комментарии, необходимо <a href="{{ url_for('login') }}">войти</a>.</p>
+        {% endif %}
+        </div>
+</body>
+</html>

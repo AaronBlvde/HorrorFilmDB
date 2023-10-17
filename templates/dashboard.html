@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dashboard.css') }}">
+    <title>Личный кабинет</title>
+</head>
+<body>
+    <div class="header">
+        <h1>Личный кабинет</h1>
+        <div class="menu">
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('logout') }}">Выход</a>
+        </div>
+    </div>
+    <div class="user-info">
+        <h2 style="color: black;">Информация о пользователе</h2>
+        <p style="color: black;">Привет, {{ user.username }}!</p>
+    </div>
+    <div class="bookmarks">
+        <h2>Мои закладки</h2>
+        <ul>
+            {% if user.bookmarks %}
+                {% for bookmark in user.bookmarks %}
+                    <li>
+                        <div class="bookmark">
+                            <a href="{{ url_for('movie_details', movie_id=bookmark.movie.id) }}">
+                                <img src="{{ bookmark.movie.image_url }}" alt="Movie Poster">
+                                <h3>{{ bookmark.movie.title if bookmark.movie else 'Фильм не найден' }}</h3>
+                            </a>
+                            <p>Рейтинг: {{ bookmark.movie.rating if bookmark.movie else 'Рейтинг не доступен' }}</p>
+                            <p>Описание: {{ bookmark.movie.description if bookmark.movie else 'Описание не доступно' }}</p>
+                            <form method="post" action="{{ url_for('remove_from_dashboard', bookmark_id=bookmark.id) }}">
+                                <input type="hidden" name="dashboard_csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>
+                    <p>Вы не добавили ни одного фильма в закладки.</p>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>

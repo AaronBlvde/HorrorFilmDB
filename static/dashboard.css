@@ -1,0 +1,115 @@
+/* dashboard.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e2e2e5; /* фон */
+    color: #FF0000; /* цвет текста */
+}
+
+.header {
+    background-color: #1111; /* фон для шапки */
+    color: #262323;
+    text-align: center;
+    padding: 10px;
+}
+
+.bookmarks {
+    background-color: #e2e2e5; /* фон для списка закладок */
+    padding: 20px;
+    text-align: center;
+}
+
+.bookmarks {
+    color: black;
+}
+
+.bookmarks ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.bookmark {
+    background-color: #474A59; /* блок для отдельной закладки */
+    border: 1px solid #111; /* граница для закладки */
+    margin: 10px;
+    padding: 10px;
+    width: 250px; /* Ширина блока закладки */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center; /* Выравнивание текста по центру */
+}
+
+.bookmark img {
+    width: 96px; /* Ширина изображения */
+    height: 144px; /* Высота изображения */
+}
+
+.bookmark h3 {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0;
+    color: #FF0000; /* цвет названия фильма */
+}
+
+.bookmark p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: white; /* цвет текста фильма */
+}
+
+/* Добавляем к стилям из dashboard.css идентификатор bookmark для отличия от movie на главной странице */
+#dashboard .bookmark {
+    background-color: #222;
+    border: 1px solid #111;
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#dashboard .bookmark img {
+    width: 96px;
+    height: 144px;
+}
+
+#dashboard .bookmark h3 {
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0;
+    color: #FF0000;
+}
+
+#dashboard .bookmark p {
+    font-size: 14px;
+    margin: 5px 0;
+    color: white;
+}
+
+.menu{
+    background-color: #474A59;
+    color: #262323;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    text-decoration: none;
+}
+
+.menu a{
+    text-decoration: none;
+    color: #f2f2f2;
+}
+
+button[type="submit"] {
+    background-color: #333; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    padding: 5px 10px; /* Внутренний отступ */
+    border: none; /* Убрать границу */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Изменить вид курсора при наведении */
+}
+
+a {
+    text-decoration: none; /* Убирает подчеркивание с ссылок */
+}

@@ -165,3 +165,12 @@ a {
 .movie a {
     text-decoration: none;
 }
+
+button[type="submit"] {
+    background-color: #333; /* Цвет кнопки */
+    color: #fff; /* Цвет текста на кнопке */
+    padding: 5px 10px; /* Внутренний отступ */
+    border: none; /* Убрать границу */
+    border-radius: 5px; /* Скругление углов */
+    cursor: pointer; /* Изменить вид курсора при наведении */
+}

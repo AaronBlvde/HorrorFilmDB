@@ -145,10 +145,15 @@ def register():
 def add_to_bookmarks(movie_id):
     if is_authenticated():
         user_id = session['user_id']
-        bookmark = Bookmark(user_id=user_id, movie_id=movie_id)
-        db.session.add(bookmark)
-        db.session.commit()
-        flash('Фильм добавлен в закладки.', 'success')
+        # Проверяем, есть ли уже такой фильм в закладках пользователя
+        existing_bookmark = Bookmark.query.filter_by(user_id=user_id, movie_id=movie_id).first()
+        if existing_bookmark:
+            flash('Фильм уже добавлен в закладки.', 'error')
+        else:
+            bookmark = Bookmark(user_id=user_id, movie_id=movie_id)
+            db.session.add(bookmark)
+            db.session.commit()
+            flash('Фильм добавлен в закладки.', 'success')
     else:
         flash('Необходимо авторизоваться, чтобы добавить фильм в закладки.', 'error')
     return redirect(url_for('index'))

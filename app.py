@@ -90,17 +90,54 @@ def movie_details(movie_id):
     authenticated = is_authenticated()
     comments = Comment.query.filter_by(movie_id=movie_id).all()
     comment_form = CommentForm()
-    if request.method == 'POST' and authenticated and comment_form.validate_on_submit():
-        user_id = session['user_id']
-        text = comment_form.comment_text.data.strip()
-        if text:
-            comment = Comment(user_id=user_id, movie_id=movie_id, text=text)
-            db.session.add(comment)
-            db.session.commit()
-            return redirect(url_for('movie_details', movie_id=movie_id))
+
+    if request.method == 'POST':
+        if authenticated:
+            user_id = session['user_id']
+            text = comment_form.comment_text.data.strip()
+            if text:
+                comment = Comment(user_id=user_id, movie_id=movie_id, text=text)
+                db.session.add(comment)
+                db.session.commit()
+                return redirect(url_for('movie_details', movie_id=movie_id))
+            else:
+                flash('Введите комментарий', 'error')
         else:
-            flash('Введите комментарий', 'error')
+            flash('Чтобы оставлять комментарии, необходимо войти.', 'error')
+
+        action = request.form.get('action')
+        if action == 'delete_comment':
+            comment_id = int(request.form.get('comment_id'))
+            comment = Comment.query.get(comment_id)
+            if comment and comment.user_id == session['user_id']:
+                db.session.delete(comment)
+                db.session.commit()
+                flash('Комментарий удален', 'success')
+            else:
+                flash('Вы не можете удалить этот комментарий', 'error')
+
     return render_template('movie_details.html', movie=movie, comments=comments, is_authenticated=authenticated, comment_form=comment_form)
+
+from flask import request
+
+@app.route('/delete_comment/<int:comment_id>', methods=['POST'])
+def delete_comment(comment_id):
+    if is_authenticated():
+        user_id = session['user_id']
+        comment = Comment.query.get(comment_id)
+        if comment and comment.user_id == user_id:
+            db.session.delete(comment)
+            db.session.commit()
+            flash('Комментарий удален', 'success')
+        else:
+            flash('Вы не можете удалить этот комментарий', 'error')
+    else:
+        flash('Необходимо авторизоваться, чтобы удалить комментарий', 'error')
+
+    # Перенаправьте пользователя на предыдущую страницу
+    return redirect(request.referrer)
+
+
 
 @app.route('/logout')
 def logout():

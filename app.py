@@ -212,12 +212,11 @@ def user_bookmarks():
 def another_user_bookmarks(user_id):
     user = User.query.get(user_id)
     if user:
-        user_bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
-        bookmarked_movies = [bookmark.movie for bookmark in user_bookmarks]
-        return render_template('user_bookmarks.html', user=user, bookmarks=bookmarked_movies)
+        return render_template('user_bookmarks.html', user=user)
     else:
         flash('Пользователь не найден', 'error')
         return redirect(url_for('index'))
+
 
 
 

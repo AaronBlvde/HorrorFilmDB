@@ -14,10 +14,12 @@
     </div>
     <div class="user-info">
         <h2 style="color: black;">Информация о пользователе</h2>
-        <p style="color: black;">Страница {{ user.username }}</p>
+        {% if user.id != session['user_id'] %}
+            <p style="color: black;">Профиль пользователя: <a href="{{ url_for('another_user_bookmarks', user_id=user.id) }}">{{ user.username }}</a></p>
+        {% endif %}
     </div>
     <div class="bookmarks">
-        <h2>Закладки {{ user.username }}</h2>
+        <h2>Мои закладки</h2>
         <ul>
             {% if user.bookmarks %}
                 {% for bookmark in user.bookmarks %}

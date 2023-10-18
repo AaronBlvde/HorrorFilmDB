@@ -195,6 +195,7 @@ def add_to_bookmarks(movie_id):
         flash('Необходимо авторизоваться, чтобы добавить фильм в закладки.', 'error')
     return redirect(url_for('index'))
 
+#Закладки в личном кабинете авторизованного пользователя
 @app.route('/bookmarks', methods=['GET', 'POST'])
 def user_bookmarks():
     if is_authenticated():
@@ -205,6 +206,22 @@ def user_bookmarks():
         return render_template('dashboard.html', user=user, bookmarks=bookmarked_movies)
     else:
         return redirect(url_for('login'))
+
+#Просмотр чужих закладок
+@app.route('/user_bookmarks/<int:user_id>')
+def another_user_bookmarks(user_id):
+    user = User.query.get(user_id)
+    if user:
+        user_bookmarks = Bookmark.query.filter_by(user_id=user_id).all()
+        bookmarked_movies = [bookmark.movie for bookmark in user_bookmarks]
+        return render_template('user_bookmarks.html', user=user, bookmarks=bookmarked_movies)
+    else:
+        flash('Пользователь не найден', 'error')
+        return redirect(url_for('index'))
+
+
+
+
 
 @app.route('/dashboard')
 def dashboard():

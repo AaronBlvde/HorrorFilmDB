@@ -15,8 +15,6 @@
         </ul>
     {% endif %}
 {% endwith %}
-    <div class="header">
-        <h1>Horror Movies</h1>
         <div class="menu">
             {% if is_authenticated %}
                 <a href="{{ url_for('dashboard') }}">Личный кабинет</a>
@@ -26,10 +24,10 @@
                 <a href="{{ url_for('register') }}">Регистрация</a>
             {% endif %}
         </div>
-    </div>
     <div class="search">
+        <h1>Horror Movies Database</h1>
         <form action="{{ url_for('search') }}" method="GET" class="search-form">
-        <input type="text" name="query" placeholder="Поиск фильмов">
+        <input  class="input" type="text" name="query" placeholder="Найти фильм...">
         <button type="submit">Поиск</button>
 </form>
     </div>
@@ -40,9 +38,9 @@
                     <div class="movie">
                         <img src="{{ movie.image_url }}" alt="Movie Poster">
                         <h2><a href="{{ url_for('movie_details', movie_id=movie.id) }}">{{ movie.title }}</a></h2>
-                        <p>Rating: {{ movie.rating }}</p>
-                        <p>Description: {{ movie.description }}</p>
-                        <button type="submit" class="btn btn-danger" onclick="window.location.href='{{ url_for('add_to_bookmarks', movie_id=movie.id) }}'">Добавить в закладки</button>
+                        <p>Рейтинг: {{ movie.rating }}</p>
+                        <p>Описание: {{ movie.description }}</p>
+                        <button type="submit" class="bn" onclick="window.location.href='{{ url_for('add_to_bookmarks', movie_id=movie.id) }}'">Добавить в закладки</button>
                     </div>
                 </li>
             {% endfor %}
